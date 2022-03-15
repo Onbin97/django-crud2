@@ -24,7 +24,11 @@ class Ownersregister(View):
             dog_lst     = Dog.objects.filter(owner = owner)
 
             for dog in dog_lst:
-                dog_result.append({dog.name:dog.age})
+                dog_result.append({
+                    "dog_id" : dog.id,
+                    "dog_name" : dog.name,
+                    "dog_age" : dog.age
+                })
 
             result.append({
                 "이름"   : owner.name,
@@ -40,9 +44,9 @@ class Dogsregister(View):
         data    = json.loads(request.body)
         owner   = Owner.objects.get(name = data["owner_name"])
         Dog.objects.create(
-            name    = data["name"],
-            age     = data["age"],
-            owner   = owner
+            name  = data["name"],
+            age   = data["age"],
+            owner = owner
 
         )
         return JsonResponse({"message" : "dog_created"}, status=201)
@@ -53,8 +57,8 @@ class Dogsregister(View):
         dog_result = []
         for dog in dog_lst:
             dog_result.append({
-                "이름" : dog.name,
-                "나이" : dog.age,
+                "이름"     : dog.name,
+                "나이"     : dog.age,
                 "주인 이름" : Owner.objects.get(id = dog.owner_id).name
             })
 
