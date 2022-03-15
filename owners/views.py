@@ -1,4 +1,3 @@
-import email
 import json
 
 from django.http import JsonResponse
@@ -21,10 +20,12 @@ class Ownersregister(View):
         result = []
         
         for owner in owner_lst:
-            dog_result = []
-            dog_lst = Dog.objects.filter(owner = owner)
+            dog_result  = []
+            dog_lst     = Dog.objects.filter(owner = owner)
+
             for dog in dog_lst:
-                dog_result.append({dog.name:dog.age})  
+                dog_result.append({dog.name:dog.age})
+
             result.append({
                 "이름"   : owner.name,
                 "email" : owner.email,
@@ -36,8 +37,8 @@ class Ownersregister(View):
 
 class Dogsregister(View):
     def post(self, request):
-        data = json.loads(request.body)
-        owner = Owner.objects.get(name = data["owner_name"])
+        data    = json.loads(request.body)
+        owner   = Owner.objects.get(name = data["owner_name"])
         Dog.objects.create(
             name    = data["name"],
             age     = data["age"],
