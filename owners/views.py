@@ -17,25 +17,33 @@ class Ownersregister(View):
     
     def get(self, request):
         owner_lst = Owner.objects.all()
-        result = []
-        
-        for owner in owner_lst:
-            dog_result  = []
-            dog_lst     = Dog.objects.filter(owner = owner)
+        result = [{
+            "이름" : owner.name,
+            "email" : owner.email,
+            "나이"  : owner.age,
+            "키우는 강아지" : [{
+                "이름" : dog.name,
+                "나이" : dog.age
+            } for dog in owner.dog_set.all()]
+        } for owner in owner_lst]     
+        # for owner in owner_lst:
+        #     dog_result  = []
+        #     # dog_lst     = Dog.objects.filter(owner = owner)
+        #     dog_lst     = owner.dog_set.all()
 
-            for dog in dog_lst:
-                dog_result.append({
-                    "dog_id" : dog.id,
-                    "dog_name" : dog.name,
-                    "dog_age" : dog.age
-                })
+        #     for dog in dog_lst:
+        #         dog_result.append({
+        #             "dog_id" : dog.id,
+        #             "dog_name" : dog.name,
+        #             "dog_age" : dog.age
+        #         })
 
-            result.append({
-                "이름"   : owner.name,
-                "email" : owner.email,
-                "나이"   : owner.age,
-                "키우는 강아지" :  dog_result, 
-            })
+        #     result.append({
+        #         "이름"   : owner.name,
+        #         "email" : owner.email,
+        #         "나이"   : owner.age,
+        #         "키우는 강아지" :  dog_result, 
+        #     })
         return JsonResponse ({"result":result}, status = 200)
 
 
