@@ -29,7 +29,8 @@ INSTALLED_APPS = [
     "corsheaders",
     "owners",
     "m2m",
-    "django_extensions"
+    "django_extensions",
+    "books",
 ]
 
 MIDDLEWARE = [
